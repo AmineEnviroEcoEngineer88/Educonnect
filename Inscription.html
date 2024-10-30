@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription</title>
+  <!-- Include your CSS files -->
+  <link rel="stylesheet" href="style/style.css">
+  <!-- using EmailJs to send the form as an email -->
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("5kdHqx0mEnOaIEV19");
+   })();
+</script>
+
+</head>
+<body>
+
+<!-- Header Section -->
+<header id="header-placeholder">
+    
+</header>
+
+<!-- Main Content - Inscription Page -->
+<main class="registration-form">
+  <section id="contact">
+    <form action="">
+      <h2 class="titleH2">Inscription Form</h2>
+      <div>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" placeholder="Enter Your Name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" placeholder="Enter Your Email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="10" placeholder="Feel free to ask about anything you want, and we will try to answer you as soon as possible " required></textarea>
+        </div>
+        <button class="button" type="submit" onclick="sendMail()">Submit</button>
+      </div>
+    </form>
+  </section>
+
+
+
+  <div class="blocks">
+    <div class="block" draggable="true">Word 1</div>
+    <div class="block" draggable="true">Word 2</div>
+    <div class="block" draggable="true">Word 3</div>
+    <div class="block" draggable="true">Word 4</div>
+  </div>
+  
+  <div class="empty-container" droppable="true">
+    <!-- Empty container for drop -->
+  </div>
+  
+  <div class="form-container">
+  <form id="inscription-form">
+    <input type="hidden" id="chosen-word" name="chosen-word">
+    <button id="clear-container" class="button">Clear Container</button>
+    <input type="color" id="color-selector">
+    <input type="date" id="date-selector">
+    <input type="text" id="autocomplete" placeholder="Auto-complete" autocomplete="off">
+  </form>
+</div>
+
+</main>
+
+
+
+
+<!-- Footer Section -->
+<footer id="footer-placeholder">
+
+</footer>
+
+
+
+<!--jQuery CDN-->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<!-- Your script file -->
+<script src="js/script.js"></script>
+
+<script>
+  $(document).ready(function() {
+  // Drag and drop
+  $('.block').on('dragstart', function(event) {
+    event.originalEvent.dataTransfer.setData('text/plain', event.target.textContent);
+  });
+
+  $('.empty-container').on('dragover', function(event) {
+    event.preventDefault();
+  });
+
+  $('.empty-container').on('drop', function(event) {
+    event.preventDefault();
+    const data = event.originalEvent.dataTransfer.getData('text/plain');
+    $('#chosen-word').val(data);
+    $(this).text(data);
+  });
+
+  // Clear container
+  $('#clear-container').on('click', function() {
+    $('.empty-container').empty();
+    $('#chosen-word').val('');
+  });
+
+  // Color selector
+  $('#color-selector').on('input', function() {
+    const selectedColor = $(this).val();
+    // Implement action with the selected color
+  });
+
+  // Date selector
+  $('#date-selector').on('change', function() {
+    const selectedDate = $(this).val();
+    // Implement action with the selected date
+  });
+
+  // Autocomplete
+  const availableWords = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']; // Your list of words
+  $('#autocomplete').autocomplete({
+    source: availableWords
+  });
+});
+
+
+    function sendMail(){
+      var params = {
+        name: document.getElementById('name').value ,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message'),
+      };
+
+      const serviceID = "service_z6ood2o";
+      const templateID = "template_ekn1mwj";
+
+      emailjs.send(serviceID, templateID, params)
+      .then(
+        res =>{
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("message").value = "";
+
+          console("your message sent successfully");
+        })
+      .catch(err => console.lgo(err));
+
+
+
+    } 
+
+</script>
+</body>
+</html>
